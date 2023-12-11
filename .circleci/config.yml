@@ -1,0 +1,38 @@
+version: 2.1
+
+executors:
+  docker:
+    docker:
+      - image: cimg/base:stable
+
+jobs:
+  hadolint:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Checking Dockerfile code quality
+          command: docker run --rm -i ghcr.io/hadolint/hadolint:latest < Dockerfiles/Dockerfile || true
+  build-iredmail:
+    executor: docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build iredmail image
+          command: |
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin $DOCKER_REGISTRY
+            export DOCKER_CLI_EXPERIMENTAL=enabled
+            docker context create buildx-build
+            docker buildx create --use buildx-build
+            docker buildx build --push --tag $DOCKER_REGISTRY/$REGISTRY_USER/iredmail:$IMAGE_VERSION --platform linux/amd64,linux/arm64 -f Dockerfiles/Dockerfile .
+
+workflows:
+  version: 2
+  build-image:
+    jobs:
+      - hadolint
+      - build-iredmail:
+          requires:
+            - hadolint
