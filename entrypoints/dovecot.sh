@@ -66,7 +66,9 @@ chmod 0700 ${MAILBOXES_DIR}
 
 # Enable some modular config files.
 for f in service-imap-hibernate.conf stats.conf; do
-    ln -s ${DOVECOT_AVAILABLE_CONF_DIR}/${f} ${DOVECOT_ENABLED_CONF_DIR}/${f}
+    if [[ ! -f "${DOVECOT_ENABLED_CONF_DIR}/${f}" ]]; then
+        ln -s ${DOVECOT_AVAILABLE_CONF_DIR}/${f} ${DOVECOT_ENABLED_CONF_DIR}/${f}
+    fi
 done
 
 # Must be readable by `vmail` user which runs Dovecot LDA as Postfix transport.
