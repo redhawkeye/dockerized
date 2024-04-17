@@ -1,12 +1,11 @@
-__WARNING__: THIS IS A BETA EDITION AND NOT ALWAYS STABLE, DO NOT TRY IT IN PRODUCTION (YET).
+__WARNING__: THIS IS A BETA EDITION AND NOT ALWAYS STABLE.
 
 - Source code is hosted on [GitHub](https://github.com/iredmail/dockerized).
   Bug report, feedback, patches are always welcome.
 - Base image is [Ubuntu 22.04 (jammy)](https://hub.docker.com/_/ubuntu).
 - Dockerized iRedMail follows the [Best Practice of iRedMail Easy platform](https://docs.iredmail.org/iredmail-easy.best.practice.html).
-- 2 tags are available:
-  - `iredmail/mariadb:stable`: Stable version.
-  - `iredmail/mariadb:nightly`: Triggered by __EACH__ GitHub commit.
+- 1 tags are available:
+  - `csalab/iredmail:latest`: Latest version.
 
 # Quick start
 
@@ -60,7 +59,7 @@ docker run \
     -v /iredmail/data/clamav:/var/lib/clamav \
     -v /iredmail/data/sa_rules:/var/lib/spamassassin \
     -v /iredmail/data/postfix_queue:/var/spool/postfix \
-    iredmail/mariadb:stable
+    csalab/iredmail:latest
 ```
 
 Notes:
@@ -124,7 +123,7 @@ docker run \
     -v iredmail_clamav:/var/lib/clamav \
     -v iredmail_sa_rules:/var/lib/spamassassin \
     -v iredmail_postfix_queue:/var/spool/postfix \
-    iredmail/mariadb:stable
+    csalab/iredmail:latest
 ```
 
 # Overview
